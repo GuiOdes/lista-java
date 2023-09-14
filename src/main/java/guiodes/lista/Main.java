@@ -14,9 +14,7 @@ public class Main {
         listaInteiro.adicionarFinal(7);
 
         System.out.println("---- Itens ----");
-        listaInteiro.forEach(integerNo ->
-            System.out.println(integerNo.getValor())
-        );
+        System.out.println(listaInteiro);
         System.out.println("---- Fim ----");
 
         System.out.println("Tamanho da lista: " + listaInteiro.tamanho);

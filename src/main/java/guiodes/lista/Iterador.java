@@ -2,7 +2,6 @@ package guiodes.lista;
 
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public class Iterador<T> implements Iterator<No<T>> {
 

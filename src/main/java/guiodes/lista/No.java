@@ -5,11 +5,21 @@ public class No<T> {
     private T valor;
     private No<T> proximo;
     private No<T> anterior;
+    private int indice;
 
-    public No(T valor, No<T> proximo, No<T> anterior) {
+    public void setIndice(int indice) {
+        this.indice = indice;
+    }
+
+    public int getIndice() {
+        return indice;
+    }
+
+    public No(T valor, No<T> proximo, No<T> anterior, int indice) {
         this.valor = valor;
         this.proximo = proximo;
         this.anterior = anterior;
+        this.indice = indice;
     }
 
     public T getValor() {

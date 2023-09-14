@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 public class Lista<T> implements Iterable<No<T>> {
     int tamanho = 0;
-
     No<T> primeiroItem;
     No<T> ultimoItem;
 
@@ -17,12 +16,41 @@ public class Lista<T> implements Iterable<No<T>> {
     }
 
     void adicionarInicio(T elemento) {
-        this.primeiroItem = new No<>(elemento, primeiroItem, null);
+        if (this.primeiroItem != null) {
+            this.forEach((no) -> {
+                no.setIndice(no.getIndice() + 1);
+            });
+        }
+
+        this.primeiroItem = new No<>(elemento, primeiroItem, null, 0);
+
+        if (this.tamanho == 0)
+            this.ultimoItem = this.primeiroItem;
         crescer();
+    }
+
+    void adicionarFinal(T elemento) {
+        if (this.tamanho == 0) {
+            adicionarInicio(elemento);
+            return;
+        }
+
+        crescer();
+
+        this.forEach(no -> {
+            if (no.getProximo() == null) {
+                No<T> novoUltimoItem = new No<>(elemento, null, no, this.tamanho - 1);
+                no.setProximo(novoUltimoItem);
+                this.ultimoItem = novoUltimoItem;
+            }
+        });
     }
 
     void removerInicio() {
         this.primeiroItem = this.primeiroItem.getProximo();
+
+        this.forEach((no) -> no.setIndice(no.getIndice() - 1));
+
         reduzir();
     }
 
@@ -33,20 +61,8 @@ public class Lista<T> implements Iterable<No<T>> {
         reduzir();
     }
 
-    void adicionarFinal(T elemento) {
-        if (this.tamanho == 0) {
-            adicionarInicio(elemento);
-            return;
-        }
+    void substituirPeloIndice(int indice, T novoElemento) {
 
-        this.forEach(no -> {
-            if (no.getProximo() == null) {
-                No<T> novoUltimoItem = new No<>(elemento, null, no);
-                no.setProximo(novoUltimoItem);
-                this.ultimoItem = novoUltimoItem;
-            }
-        });
-        crescer();
     }
 
     void crescer() {
@@ -55,5 +71,22 @@ public class Lista<T> implements Iterable<No<T>> {
 
     void reduzir() {
         this.tamanho--;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+
+        this.forEach(no -> {
+            result
+                .append("[")
+                .append(no.getIndice())
+                .append("] -> ")
+                .append(no.getValor());
+
+            if (no.getIndice() != this.tamanho - 1) result.append("\n");
+        });
+
+        return result.toString();
     }
 }
