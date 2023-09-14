@@ -34,6 +34,11 @@ public class Lista<T> implements Iterable<No<T>> {
     }
 
     void adicionarFinal(T elemento) {
+        if (this.tamanho == 0) {
+            adicionarInicio(elemento);
+            return;
+        }
+
         this.forEach(no -> {
             if (no.getProximo() == null) {
                 No<T> novoUltimoItem = new No<>(elemento, null, no);
