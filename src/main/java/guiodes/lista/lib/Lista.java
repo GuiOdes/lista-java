@@ -1,4 +1,4 @@
-package guiodes.lista;
+package guiodes.lista.lib;
 
 import java.util.Iterator;
 
@@ -27,7 +27,7 @@ public class Lista<T> implements Iterable<No<T>> {
         return new Iterador<>(primeiroItem);
     }
 
-    void adicionarInicio(T elemento) {
+    public void adicionarInicio(T elemento) {
         if (this.primeiroItem != null) {
             this.forEach((no) -> {
                 no.setIndice(no.getIndice() + 1);
@@ -41,7 +41,7 @@ public class Lista<T> implements Iterable<No<T>> {
         crescer();
     }
 
-    void adicionarFinal(T elemento) {
+    public void adicionarFinal(T elemento) {
         if (this.tamanho == 0) {
             adicionarInicio(elemento);
             return;
@@ -58,7 +58,7 @@ public class Lista<T> implements Iterable<No<T>> {
         });
     }
 
-    void removerInicio() {
+    public void removerInicio() {
         this.primeiroItem = this.primeiroItem.getProximo();
 
         this.forEach((no) -> no.setIndice(no.getIndice() - 1));
@@ -66,14 +66,14 @@ public class Lista<T> implements Iterable<No<T>> {
         reduzir();
     }
 
-    void removerFinal() {
+    public void removerFinal() {
         No<T> antigoUltimo = this.ultimoItem;
         this.ultimoItem = antigoUltimo.getAnterior();
         this.ultimoItem.setProximo(antigoUltimo.getProximo());
         reduzir();
     }
 
-    void substituirPeloIndice(int indice, T novoElemento) {
+    public void substituirPeloIndice(int indice, T novoElemento) {
         if (indice >= this.tamanho || indice < 0)
             throw new IllegalArgumentException("Índice inválido para item da lista");
 
@@ -107,7 +107,7 @@ public class Lista<T> implements Iterable<No<T>> {
         crescer();
     }
 
-    T obterPorIndice(int indice) {
+    public T obterPorIndice(int indice) {
         if (indice < 0 || indice > tamanho-1)
             throw new IllegalArgumentException("Indice fora dos limites da lista!");
 
@@ -120,7 +120,7 @@ public class Lista<T> implements Iterable<No<T>> {
         return noAtual.getValor();
     }
 
-    int obterNumeroOcorencias(T valor) {
+    public int obterNumeroOcorencias(T valor) {
         No<T> noAtual = this.primeiroItem;
         int contador = 0;
 
@@ -134,7 +134,7 @@ public class Lista<T> implements Iterable<No<T>> {
         return contador;
     }
 
-    int ocorrenciasDeNumerosImpares() {
+    public int ocorrenciasDeNumerosImpares() {
         if (this.tamanho == 0) {
             throw new IllegalArgumentException("Lista vazia!");
         }
@@ -156,7 +156,7 @@ public class Lista<T> implements Iterable<No<T>> {
         return contador;
     }
 
-    void limparLista() {
+    public void limparLista() {
         int antigoTamanho = this.tamanho;
         for (int i = 0; i <= antigoTamanho-1; i++) {
             removerInicio();

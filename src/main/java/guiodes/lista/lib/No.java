@@ -1,4 +1,4 @@
-package guiodes.lista;
+package guiodes.lista.lib;
 
 public class No<T> {
 

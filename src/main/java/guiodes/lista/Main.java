@@ -1,5 +1,7 @@
 package guiodes.lista;
 
+import guiodes.lista.lib.Lista;
+
 public class Main {
     public static void main(String[] args) {
         Lista<Integer> listaInteiro = new Lista<>();

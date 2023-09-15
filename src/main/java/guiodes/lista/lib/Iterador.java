@@ -1,4 +1,4 @@
-package guiodes.lista;
+package guiodes.lista.lib;
 
 
 import java.util.Iterator;
