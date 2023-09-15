@@ -4,19 +4,32 @@ public class Main {
     public static void main(String[] args) {
         Lista<Integer> listaInteiro = new Lista<>();
 
-        listaInteiro.adicionarFinal(9);
-        listaInteiro.adicionarInicio(1);
-        listaInteiro.adicionarInicio(2);
-        listaInteiro.removerInicio();
-        listaInteiro.adicionarInicio(3);
-        listaInteiro.adicionarFinal(8);
-        listaInteiro.removerFinal();
-        listaInteiro.adicionarFinal(7);
+        listaInteiro.adicionarFinal(1);
 
+        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem().getValor());
+        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem().getValor());
+
+        listaInteiro.adicionarFinal(2);
+        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem().getValor());
+        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem().getValor());
+
+        listaInteiro.adicionarFinal(3);
+        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem().getValor());
+        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem().getValor());
+
+        listaInteiro.substituirPeloIndice(2, 2);
+        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem().getValor());
+        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem().getValor());
+
+        System.out.println("Indice 2 -> " + listaInteiro.obterPorIndice(2));
+        System.out.println("Ocorrencias do número 2 -> " + listaInteiro.obterNumeroOcorencias(2));
+
+//        listaInteiro.limparLista();
+        System.out.println("Impares: " + listaInteiro.ocorrenciasDeNumerosImpares());
         System.out.println("---- Itens ----");
         System.out.println(listaInteiro);
         System.out.println("---- Fim ----");
 
-        System.out.println("Tamanho da lista: " + listaInteiro.tamanho);
+        System.out.println("Tamanho da lista: " + listaInteiro.getTamanho());
     }
 }

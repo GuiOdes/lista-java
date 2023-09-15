@@ -3,9 +3,21 @@ package guiodes.lista;
 import java.util.Iterator;
 
 public class Lista<T> implements Iterable<No<T>> {
-    int tamanho = 0;
-    No<T> primeiroItem;
-    No<T> ultimoItem;
+    private int tamanho = 0;
+    private No<T> primeiroItem;
+    private No<T> ultimoItem;
+
+    public int getTamanho() {
+        return tamanho;
+    }
+
+    public No<T> getPrimeiroItem() {
+        return primeiroItem;
+    }
+
+    public No<T> getUltimoItem() {
+        return ultimoItem;
+    }
 
     public Lista() {
     }
@@ -62,7 +74,95 @@ public class Lista<T> implements Iterable<No<T>> {
     }
 
     void substituirPeloIndice(int indice, T novoElemento) {
+        if (indice >= this.tamanho || indice < 0)
+            throw new IllegalArgumentException("Índice inválido para item da lista");
 
+        if (indice == 0) {
+            adicionarInicio(novoElemento);
+            return;
+        };
+
+        No<T> noASerSubstituido = this.primeiroItem;
+
+        while (noASerSubstituido.getIndice() != indice) {
+            noASerSubstituido = noASerSubstituido.getProximo();
+        }
+
+        No<T> novoNo = new No<>(novoElemento, noASerSubstituido, noASerSubstituido.getAnterior(), indice);
+
+        noASerSubstituido.getAnterior().setProximo(novoNo);
+        noASerSubstituido.setAnterior(novoNo);
+
+        No<T> noAtual = noASerSubstituido;
+        while (noAtual.getIndice() <= this.tamanho-1) {
+            noAtual.setIndice(noAtual.getIndice()+1);
+
+            if (!noAtual.existeProximo()) {
+                this.ultimoItem = noAtual;
+                break;
+            }
+            noAtual = noAtual.getProximo();
+        }
+
+        crescer();
+    }
+
+    T obterPorIndice(int indice) {
+        if (indice < 0 || indice > tamanho-1)
+            throw new IllegalArgumentException("Indice fora dos limites da lista!");
+
+        No<T> noAtual = this.primeiroItem;
+
+        while (noAtual.getIndice() != indice) {
+            noAtual = noAtual.getProximo();
+        }
+
+        return noAtual.getValor();
+    }
+
+    int obterNumeroOcorencias(T valor) {
+        No<T> noAtual = this.primeiroItem;
+        int contador = 0;
+
+        while (noAtual.getIndice() <= this.tamanho-1) {
+            if (noAtual.getValor() == valor) contador++;
+
+            if (!noAtual.existeProximo()) break;
+            noAtual = noAtual.getProximo();
+        }
+
+        return contador;
+    }
+
+    int ocorrenciasDeNumerosImpares() {
+        if (this.tamanho == 0) {
+            throw new IllegalArgumentException("Lista vazia!");
+        }
+
+        No<T> noAtual = this.primeiroItem;
+
+        if (!(noAtual.getValor() instanceof Integer)) {
+            throw new IllegalArgumentException("A lista deve ser de inteiros!");
+        }
+
+        int contador = 0;
+        while (noAtual.getIndice() <= this.tamanho-1) {
+            if ((int) noAtual.getValor() % 2 != 0) contador++;
+
+            if (!noAtual.existeProximo()) break;
+            noAtual = noAtual.getProximo();
+        }
+
+        return contador;
+    }
+
+    void limparLista() {
+        int antigoTamanho = this.tamanho;
+        for (int i = 0; i <= antigoTamanho-1; i++) {
+            removerInicio();
+        }
+
+        System.gc();
     }
 
     void crescer() {

@@ -45,4 +45,7 @@ public class No<T> {
     public void setAnterior(No<T> anterior) {
         this.anterior = anterior;
     }
+    public boolean existeProximo() {
+        return this.proximo != null;
+    }
 }
