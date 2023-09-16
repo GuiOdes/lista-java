@@ -8,20 +8,20 @@ public class Main {
 
         listaInteiro.adicionarFinal(1);
 
-        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem().getValor());
-        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem().getValor());
+        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem());
+        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem());
 
         listaInteiro.adicionarFinal(2);
-        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem().getValor());
-        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem().getValor());
+        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem());
+        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem());
 
         listaInteiro.adicionarFinal(3);
-        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem().getValor());
-        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem().getValor());
+        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem());
+        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem());
 
         listaInteiro.substituirPeloIndice(2, 2);
-        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem().getValor());
-        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem().getValor());
+        System.out.println("Primeiro item: " + listaInteiro.getPrimeiroItem());
+        System.out.println("Ultimo item: " + listaInteiro.getUltimoItem());
 
         System.out.println("Indice 2 -> " + listaInteiro.obterPorIndice(2));
         System.out.println("Ocorrencias do número 2 -> " + listaInteiro.obterNumeroOcorencias(2));

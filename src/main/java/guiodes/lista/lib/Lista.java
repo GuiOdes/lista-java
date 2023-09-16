@@ -2,7 +2,7 @@ package guiodes.lista.lib;
 
 import java.util.Iterator;
 
-public class Lista<T> implements Iterable<No<T>> {
+public class Lista<T> implements Iterable<T> {
     private int tamanho = 0;
     private No<T> primeiroItem;
     private No<T> ultimoItem;
@@ -11,25 +11,29 @@ public class Lista<T> implements Iterable<No<T>> {
         return tamanho;
     }
 
-    public No<T> getPrimeiroItem() {
-        return primeiroItem;
+    public T getPrimeiroItem() {
+        return primeiroItem.getValor();
     }
 
-    public No<T> getUltimoItem() {
-        return ultimoItem;
+    public T getUltimoItem() {
+        return ultimoItem.getValor();
     }
 
     public Lista() {
     }
 
     @Override
-    public Iterator<No<T>> iterator() {
-        return new Iterador<>(primeiroItem);
+    public Iterator<T> iterator() { // Utilizado para funções externas, pois retorna diretamente os valores dos nós
+        return new IteradorPublico<>(this);
+    }
+
+    public Iterator<No<T>> iteratorPrivado() { // Utilizado para funções internas, pois retorna os nós nas repetições
+        return new IteradorPrivado<>(primeiroItem);
     }
 
     public void adicionarInicio(T elemento) {
         if (this.primeiroItem != null) {
-            this.forEach((no) -> {
+            iteratorPrivado().forEachRemaining(no -> {
                 no.setIndice(no.getIndice() + 1);
             });
         }
@@ -49,7 +53,7 @@ public class Lista<T> implements Iterable<No<T>> {
 
         crescer();
 
-        this.forEach(no -> {
+        iteratorPrivado().forEachRemaining(no -> {
             if (no.getProximo() == null) {
                 No<T> novoUltimoItem = new No<>(elemento, null, no, this.tamanho - 1);
                 no.setProximo(novoUltimoItem);
@@ -61,7 +65,7 @@ public class Lista<T> implements Iterable<No<T>> {
     public void removerInicio() {
         this.primeiroItem = this.primeiroItem.getProximo();
 
-        this.forEach((no) -> no.setIndice(no.getIndice() - 1));
+        iteratorPrivado().forEachRemaining((no) -> no.setIndice(no.getIndice() - 1));
 
         reduzir();
     }
@@ -80,7 +84,8 @@ public class Lista<T> implements Iterable<No<T>> {
         if (indice == 0) {
             adicionarInicio(novoElemento);
             return;
-        };
+        }
+        ;
 
         No<T> noASerSubstituido = this.primeiroItem;
 
@@ -94,8 +99,8 @@ public class Lista<T> implements Iterable<No<T>> {
         noASerSubstituido.setAnterior(novoNo);
 
         No<T> noAtual = noASerSubstituido;
-        while (noAtual.getIndice() <= this.tamanho-1) {
-            noAtual.setIndice(noAtual.getIndice()+1);
+        while (noAtual.getIndice() <= this.tamanho - 1) {
+            noAtual.setIndice(noAtual.getIndice() + 1);
 
             if (!noAtual.existeProximo()) {
                 this.ultimoItem = noAtual;
@@ -108,7 +113,7 @@ public class Lista<T> implements Iterable<No<T>> {
     }
 
     public T obterPorIndice(int indice) {
-        if (indice < 0 || indice > tamanho-1)
+        if (indice < 0 || indice > tamanho - 1)
             throw new IllegalArgumentException("Indice fora dos limites da lista!");
 
         No<T> noAtual = this.primeiroItem;
@@ -124,7 +129,7 @@ public class Lista<T> implements Iterable<No<T>> {
         No<T> noAtual = this.primeiroItem;
         int contador = 0;
 
-        while (noAtual.getIndice() <= this.tamanho-1) {
+        while (noAtual.getIndice() <= this.tamanho - 1) {
             if (noAtual.getValor() == valor) contador++;
 
             if (!noAtual.existeProximo()) break;
@@ -146,7 +151,7 @@ public class Lista<T> implements Iterable<No<T>> {
         }
 
         int contador = 0;
-        while (noAtual.getIndice() <= this.tamanho-1) {
+        while (noAtual.getIndice() <= this.tamanho - 1) {
             if ((int) noAtual.getValor() % 2 != 0) contador++;
 
             if (!noAtual.existeProximo()) break;
@@ -158,7 +163,7 @@ public class Lista<T> implements Iterable<No<T>> {
 
     public void limparLista() {
         int antigoTamanho = this.tamanho;
-        for (int i = 0; i <= antigoTamanho-1; i++) {
+        for (int i = 0; i <= antigoTamanho - 1; i++) {
             removerInicio();
         }
 
@@ -177,12 +182,12 @@ public class Lista<T> implements Iterable<No<T>> {
     public String toString() {
         StringBuilder result = new StringBuilder();
 
-        this.forEach(no -> {
+        iteratorPrivado().forEachRemaining(no -> {
             result
-                .append("[")
-                .append(no.getIndice())
-                .append("] -> ")
-                .append(no.getValor());
+                    .append("[")
+                    .append(no.getIndice())
+                    .append("] -> ")
+                    .append(no.getValor());
 
             if (no.getIndice() != this.tamanho - 1) result.append("\n");
         });

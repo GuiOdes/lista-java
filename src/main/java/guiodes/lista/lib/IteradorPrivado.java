@@ -3,11 +3,11 @@ package guiodes.lista.lib;
 
 import java.util.Iterator;
 
-public class Iterador<T> implements Iterator<No<T>> {
+public class IteradorPrivado<T> implements Iterator<No<T>> {
 
     private No<T> atual;
 
-    public Iterador(No<T> atual) {
+    public IteradorPrivado(No<T> atual) {
         this.atual = atual;
     }
 

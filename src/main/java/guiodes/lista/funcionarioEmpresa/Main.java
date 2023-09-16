@@ -1,6 +1,7 @@
-package guiodes.lista.funcionario;
+package guiodes.lista.funcionarioEmpresa;
 
 import java.math.BigDecimal;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,11 +17,12 @@ public class Main {
         System.out.println("Nome da empresa: " + empresa.getNome());
         System.out.println("Quantidade de funcionarios: " + empresa.getQuantidadeFuncionarios());
         System.out.println("--- Funcionários ---");
+        AtomicInteger cont = new AtomicInteger(1);
         empresa.getListaFuncionarios().forEach(funcionario -> {
-            System.out.println(funcionario.getIndice()+1);
-            System.out.println("Nome: " + funcionario.getValor().getNome()); // Resolver a necessidade de usar o getValor()
-            System.out.println("Idade: " + funcionario.getValor().getIdade());
-            System.out.println("Salário: " + funcionario.getValor().getSalario());
+            System.out.println(cont.getAndIncrement());
+            System.out.println("Nome: " + funcionario.getNome()); // Resolver a necessidade de usar o getValor()
+            System.out.println("Idade: " + funcionario.getIdade());
+            System.out.println("Salário: " + funcionario.getSalario());
             System.out.println("-----------------");
         });
         System.out.println("--- Fim da lista ---");

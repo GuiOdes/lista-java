@@ -1,4 +1,4 @@
-package guiodes.lista.funcionario;
+package guiodes.lista.funcionarioEmpresa;
 
 import guiodes.lista.lib.Lista;
 
