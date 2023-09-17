@@ -26,5 +26,7 @@ public class Main {
             System.out.println("-----------------");
         });
         System.out.println("--- Fim da lista ---");
+
+        System.out.println("Soma de todos os salários: " + empresa.getListaFuncionarios().somaDe(Funcionario::getSalario));
     }
 }

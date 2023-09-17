@@ -1,11 +1,14 @@
 package guiodes.lista.lib;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
+import java.util.function.Function;
 
 public class Lista<T> implements Iterable<T> {
     private int tamanho = 0;
     private No<T> primeiroItem;
     private No<T> ultimoItem;
+    private final FuncoesSoma<T> funcoesSoma = new FuncoesSoma<>(this);
 
     public int getTamanho() {
         return tamanho;
@@ -45,6 +48,10 @@ public class Lista<T> implements Iterable<T> {
         crescer();
     }
 
+    public void adicionarVariosInicio(Lista<T> elementos) {
+        elementos.forEach(this::adicionarInicio);
+    }
+
     public void adicionarFinal(T elemento) {
         if (this.tamanho == 0) {
             adicionarInicio(elemento);
@@ -60,6 +67,10 @@ public class Lista<T> implements Iterable<T> {
                 this.ultimoItem = novoUltimoItem;
             }
         });
+    }
+
+    public void adicionarVariosFinal(Lista<T> elementos) {
+        elementos.forEach(this::adicionarFinal);
     }
 
     public void removerInicio() {
@@ -159,6 +170,20 @@ public class Lista<T> implements Iterable<T> {
         }
 
         return contador;
+    }
+
+    public Number somaDe(Function<T, Number> seletor) {
+        if (seletor == null) throw new  IllegalArgumentException("Seletor não pode ser nulo!");
+        return switch (seletor.apply(this.primeiroItem.getValor()).getClass().getSimpleName()) {
+            case "BigDecimal" -> funcoesSoma.somaBigDecimal(
+                seletor
+                    .andThen(Number::doubleValue)
+                    .andThen(BigDecimal::valueOf)
+            );
+            case "Integer" -> funcoesSoma.somaInteiro(seletor.andThen(Number::intValue));
+            case "Double" -> funcoesSoma.somaDouble(seletor.andThen(Number::doubleValue));
+            default -> throw new IllegalArgumentException("Tipo de dado não suportado!");
+        };
     }
 
     public void limparLista() {
