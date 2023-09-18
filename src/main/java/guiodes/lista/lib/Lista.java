@@ -1,6 +1,5 @@
 package guiodes.lista.lib;
 
-import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.function.Function;
 
@@ -32,6 +31,14 @@ public class Lista<T> implements Iterable<T> {
 
     public Iterator<No<T>> iteratorPrivado() { // Utilizado para funções internas, pois retorna os nós nas repetições
         return new IteradorPrivado<>(primeiroItem);
+    }
+
+    public Class<?> getTipo() {
+        return this.primeiroItem.getValor().getClass();
+    }
+
+    public Number somaDe(Function<T, Number> seletor) {
+        return funcoesSoma.somaDe(seletor);
     }
 
     public void adicionarInicio(T elemento) {
@@ -170,20 +177,6 @@ public class Lista<T> implements Iterable<T> {
         }
 
         return contador;
-    }
-
-    public Number somaDe(Function<T, Number> seletor) {
-        if (seletor == null) throw new  IllegalArgumentException("Seletor não pode ser nulo!");
-        return switch (seletor.apply(this.primeiroItem.getValor()).getClass().getSimpleName()) {
-            case "BigDecimal" -> funcoesSoma.somaBigDecimal(
-                seletor
-                    .andThen(Number::doubleValue)
-                    .andThen(BigDecimal::valueOf)
-            );
-            case "Integer" -> funcoesSoma.somaInteiro(seletor.andThen(Number::intValue));
-            case "Double" -> funcoesSoma.somaDouble(seletor.andThen(Number::doubleValue));
-            default -> throw new IllegalArgumentException("Tipo de dado não suportado!");
-        };
     }
 
     public void limparLista() {

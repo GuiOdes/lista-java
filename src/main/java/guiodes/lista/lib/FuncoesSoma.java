@@ -10,7 +10,22 @@ public class FuncoesSoma<T> {
         this.lista = lista;
     }
 
-    public BigDecimal somaBigDecimal(Function<T, BigDecimal> seletor) {
+    public Number somaDe(Function<T, Number> seletor) {
+        if (seletor == null) throw new  IllegalArgumentException("Seletor não pode ser nulo!");
+        return switch (lista.getTipo().getSimpleName()) {
+            case "BigDecimal" -> somaBigDecimal(
+                    seletor
+                        .andThen(Number::doubleValue)
+                        .andThen(BigDecimal::valueOf)
+            );
+            case "Integer" -> somaInteiro(seletor.andThen(Number::intValue));
+            case "Double" -> somaDouble(seletor.andThen(Number::doubleValue));
+            case "Long" -> somaLong(seletor.andThen(Number::longValue));
+            default -> throw new IllegalArgumentException("Tipo de dado não suportado!");
+        };
+    }
+
+    private BigDecimal somaBigDecimal(Function<T, BigDecimal> seletor) {
         BigDecimal soma = BigDecimal.ZERO;
 
         for (T item : lista) {
@@ -20,7 +35,7 @@ public class FuncoesSoma<T> {
         return soma;
     }
 
-    public Integer somaInteiro(Function<T, Integer> seletor) {
+    private Integer somaInteiro(Function<T, Integer> seletor) {
         Integer soma = 0;
 
         for (T item : lista) {
@@ -30,7 +45,17 @@ public class FuncoesSoma<T> {
         return soma;
     }
 
-    public Double somaDouble(Function<T, Double> seletor) {
+    private Long somaLong(Function<T, Long> seletor) {
+        Long soma = 0L;
+
+        for (T item : lista) {
+            soma += seletor.apply(item);
+        }
+
+        return soma;
+    }
+
+    private Double somaDouble(Function<T, Double> seletor) {
         Double soma = 0.0;
 
         for (T item : lista) {
