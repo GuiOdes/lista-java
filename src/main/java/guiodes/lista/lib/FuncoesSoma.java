@@ -12,7 +12,9 @@ public class FuncoesSoma<T> {
 
     public Number somaDe(Function<T, Number> seletor) {
         if (seletor == null) throw new  IllegalArgumentException("Seletor não pode ser nulo!");
-        return switch (lista.getTipo().getSimpleName()) {
+        if (lista.getTamanho() == 0) return 0;
+
+        return switch (seletor.apply(lista.getPrimeiroItem()).getClass().getSimpleName()) {
             case "BigDecimal" -> somaBigDecimal(
                     seletor
                         .andThen(Number::doubleValue)

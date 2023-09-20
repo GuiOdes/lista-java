@@ -103,7 +103,6 @@ public class Lista<T> implements Iterable<T> {
             adicionarInicio(novoElemento);
             return;
         }
-        ;
 
         No<T> noASerSubstituido = this.primeiroItem;
 
