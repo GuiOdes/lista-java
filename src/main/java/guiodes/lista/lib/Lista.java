@@ -104,11 +104,7 @@ public class Lista<T> implements Iterable<T> {
             return;
         }
 
-        No<T> noASerSubstituido = this.primeiroItem;
-
-        while (noASerSubstituido.getIndice() != indice) {
-            noASerSubstituido = noASerSubstituido.getProximo();
-        }
+        No<T> noASerSubstituido = obterNoPorIndice(indice);
 
         No<T> novoNo = new No<>(novoElemento, noASerSubstituido, noASerSubstituido.getAnterior(), indice);
 
@@ -140,6 +136,19 @@ public class Lista<T> implements Iterable<T> {
         }
 
         return noAtual.getValor();
+    }
+
+    public No<T> obterNoPorIndice(int indice) {
+        if (indice < 0 || indice > tamanho - 1)
+            throw new IllegalArgumentException("Indice fora dos limites da lista!");
+
+        No<T> noAtual = this.primeiroItem;
+
+        while (noAtual.getIndice() != indice) {
+            noAtual = noAtual.getProximo();
+        }
+
+        return noAtual;
     }
 
     public int obterNumeroOcorencias(T valor) {
